@@ -17,8 +17,6 @@ const countryInfo = async function (name) {
     const response = await fetch(`https://restcountries.com/v3.1/alpha/${name}`);
     const data = await response.json();
     const [countryData] = data;
-    console.log(countryData);
-
     const currencies = Object.values(countryData.currencies).map((each) => each.name);
     let borders;
     let eachCountryData = [];
@@ -36,15 +34,15 @@ const countryInfo = async function (name) {
 
     const countryDataHtml = `
           <div class="bottom py-5">
-            <div class="d-flex align-items-center justify-content-between w-100">
+            <div class="d-flex align-items-center justify-content-between w-100 bottom-inside">
               <div class="flag-containe ">
                 <img src="${countryData.flags.png}" alt="${countryData.cca3}" class="flag " />
               </div>
-              <div class="d-flex flex-column w-50">
+              <div class="d-flex flex-column w-50 bottom-inside-bottom">
                 <div>
                   <h3>${countryData.name.common}, ${countryData.cca3}</h3>
                 </div>
-                <div class="d-flex justify-content-between">
+                <div class="d-flex justify-content-between bottom-inside-bottom-info">
                   <div>
                     <h6>Native Name: <span class="text-capitalize">${Object.values(countryData.name.nativeName)[0].common}</span></h6>
                     <h6>Population: <span>${Number(countryData.population).toLocaleString()}</span></h6>
@@ -86,10 +84,13 @@ const countryInfo = async function (name) {
     });
     mainPage.classList.add("d-none");
     countryInfoPage.classList.remove("d-none");
-
+    window.scrollTo(0, 0);
+    const bottom = document.querySelector(".bottom");
     // backBtn
     countryInfoBtn.addEventListener("click", function () {
-      countryInfoPage.querySelector(".bottom").remove();
+      if (bottom) {
+        bottom.remove();
+      }
       mainPage.classList.remove("d-none");
       countryInfoPage.classList.add("d-none");
     });
@@ -174,7 +175,7 @@ const searchApp = async function (allCards) {
   });
 };
 
-const displayMode = async function (allCards, objs) {
+const displayMode = async function (allCards) {
   displayModeBtn.addEventListener("click", function (e) {
     e.preventDefault();
     // when page is on dark mode
@@ -210,6 +211,7 @@ const displayMode = async function (allCards, objs) {
       countryInfoBtn.classList.remove("dark-mode-elements");
       countryInfoBtn.classList.add("light-mode-header");
 
+      const objs = countryInfoPage.querySelectorAll("object");
       objs.forEach((each) => {
         each.classList.remove("dark-mode-elements");
         each.classList.add("light-mode-header");
@@ -248,6 +250,7 @@ const displayMode = async function (allCards, objs) {
       countryInfoBtn.classList.add("dark-mode-elements");
       countryInfoBtn.classList.remove("light-mode-header");
 
+      const objs = countryInfoPage.querySelectorAll("object");
       objs.forEach((each) => {
         each.classList.add("dark-mode-elements");
         each.classList.remove("light-mode-header");
