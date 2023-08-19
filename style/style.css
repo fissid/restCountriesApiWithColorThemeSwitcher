@@ -91,13 +91,14 @@ header,
   box-shadow: 1px 1px 10px -2px #666;
 }
 
-.card img {
-  height: 150px;
-  width: 100%;
-}
 .flag {
   filter: grayscale(0.2);
   height: 100%;
+  width: 100%;
+}
+
+.card img {
+  height: 150px;
   width: 100%;
 }
 
@@ -145,4 +146,70 @@ header,
   flex-flow: row wrap;
   align-items: center;
   row-gap: 10px;
+}
+
+@media (max-width: 990px) {
+  .main {
+    padding: 1em 0 !important;
+  }
+  .top-menu {
+    flex-flow: column nowrap;
+    align-items: stretch;
+    justify-content: center;
+  }
+  .each {
+    margin: 0.3em 0;
+    width: 100% !important;
+  }
+  .input-group {
+    width: 100%;
+  }
+  .sort-btn,
+  .dropdown-menu {
+    width: 100%;
+  }
+
+  .country-cards {
+    padding-top: 30px !important;
+    justify-content: center;
+  }
+
+  header h4 {
+    font-size: 1.1em;
+    margin: 0.5em 0;
+  }
+  .top button {
+    width: 100%;
+    /* display: block; */
+  }
+  .bottom {
+    padding: 1.2em 0 !important;
+    padding-bottom: 0 !important;
+  }
+
+  .bottom-inside {
+    flex-flow: column nowrap;
+    width: 100% !important;
+  }
+  .flag-containe {
+    width: 95%;
+    height: 35vh;
+  }
+  .bottom-inside-bottom {
+    margin-top: 1em;
+    width: 95% !important;
+  }
+  .bottom-inside-bottom-info {
+    flex-flow: column nowrap;
+    gap: 1em;
+  }
+  .mt-5 {
+    margin-top: 1em !important;
+  }
+  .borders object {
+    padding: 0.3em 0.9em !important;
+  }
+  .card {
+    width: 280px;
+  }
 }
