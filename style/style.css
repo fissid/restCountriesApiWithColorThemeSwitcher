@@ -193,7 +193,7 @@ header,
   }
   .flag-containe {
     width: 95%;
-    height: 35vh;
+    height: 25vh;
   }
   .bottom-inside-bottom {
     margin-top: 1em;
@@ -210,6 +210,12 @@ header,
     padding: 0.3em 0.9em !important;
   }
   .card {
-    width: 280px;
+    width: 300px;
+    max-height: 330px;
+  }
+
+  .card img {
+    height: 180px;
+    width: 100%;
   }
 }
