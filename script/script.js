@@ -8,37 +8,41 @@ const dropdownBtn = document.querySelector(".dropdown-toggle");
 const dropdownMenu = document.querySelector(".dropdown-menu");
 const dropdownItems = document.querySelectorAll(".dropdown-item");
 const sortBtn = document.querySelector(".sort-btn");
-const countryInfoBtns = document.querySelectorAll(".conutry-info button");
+const countryInfoBtn = document.querySelector(".back-btn");
 const mainPage = document.querySelector(".main-page");
 const countryInfoPage = document.querySelector(".conutry-info");
 
 const countryInfo = async function (name) {
   try {
-    const response = await fetch(`https://restcountries.com/v3.1/name/${name}`);
+    const response = await fetch(`https://restcountries.com/v3.1/alpha/${name}`);
     const data = await response.json();
     const [countryData] = data;
+    console.log(countryData);
+
     const currencies = Object.values(countryData.currencies).map((each) => each.name);
-    const borders = Object.values(countryData.borders);
-    const bordersResponse = await fetch(`https://restcountries.com/v3.1/alpha?codes=${borders}`);
-    const bordersData = await bordersResponse.json();
+    let borders;
     let eachCountryData = [];
-    bordersData.forEach((each) => {
-      eachCountryData.push(each.name.common);
-    });
+
+    if (!countryData.borders) {
+      borders = [];
+    } else {
+      borders = Object.values(countryData.borders);
+      const bordersResponse = await fetch(`https://restcountries.com/v3.1/alpha?codes=${borders}`);
+      const bordersData = await bordersResponse.json();
+      bordersData.forEach((each) => {
+        eachCountryData.push(each.name.common);
+      });
+    }
 
     const countryDataHtml = `
-      <div class="d-flex flex-column">
-          <div class="top">
-            <button class="btn btn-dark dark-mode-elements back-btn px-4">⬅&nbsp;&nbsp;<small>Back</small></button>
-          </div>
           <div class="bottom py-5">
             <div class="d-flex align-items-center justify-content-between w-100">
-              <div class="flag-containe">
-                <img src="${countryData.flags.png}" alt="${countryData.cca3}" class="flag w-100 h-100" />
+              <div class="flag-containe ">
+                <img src="${countryData.flags.png}" alt="${countryData.cca3}" class="flag " />
               </div>
               <div class="d-flex flex-column w-50">
                 <div>
-                  <h3>${countryData.name.common}</h3>
+                  <h3>${countryData.name.common}, ${countryData.cca3}</h3>
                 </div>
                 <div class="d-flex justify-content-between">
                   <div>
@@ -47,11 +51,18 @@ const countryInfo = async function (name) {
                     <h6>Region: <span class="text-capitalize">${countryData.region}</span></h6>
                     <h6>Sub Region: <span class="text-capitalize">${countryData.subregion}</span></h6>
                     <h6>Capital: <span class="text-capitalize">${countryData.capital}</span></h6>
+                    <h6>Google Maps: <span class=""><a href="${countryData.maps.googleMaps}" target="_blank">${countryData.name.common}</a></span></h6>
                   </div>
                   <div>
                     <h6>Top Level Domain: <span class="text-lowercase">${countryData.tld[0]}</span></h6>
                     <h6>Currencies: <span class="text-capitalize">${currencies}</span></h6>
                     <h6>Languages: <span class="text-capitalize">${Object.values(countryData.languages)}</span></h6>
+                    
+                    <h6>Timezone: <span>${countryData.timezones}</span></h6>
+                    <h6>
+                      Calling Code: <span><a href="tel:${countryData.idd.root + countryData.idd.suffixes}" class="text-primary">${countryData.idd.root + countryData.idd.suffixes}</a></span>
+                    </h6>
+                    <h6>Start Of Week: <span class="text-capitalize">${countryData.startOfWeek}</span></h6>
                   </div>
                 </div>
                 <div class="mt-5">
@@ -61,20 +72,27 @@ const countryInfo = async function (name) {
                 </div>
               </div>
             </div>
-          </div>
         </div>`;
-    countryInfoPage.insertAdjacentHTML("afterbegin", countryDataHtml);
+    countryInfoPage.insertAdjacentHTML("beforeend", countryDataHtml);
 
+    // insert border countries
     eachCountryData.forEach((each) => {
       const borderHtml = `
-        <button class="text-capitalize btn btn-dark btn-sm dark-mode-elements dark-mode-elements py-1 rounded-0 px-4 mx-1">
+        <object class="text-capitalize dark-mode-elements py-1 rounded-0 px-4 mx-1 small">
           <span>${each}</span>
-        </button>
+        </object>
       `;
       document.querySelector(".borders").insertAdjacentHTML("beforeend", borderHtml);
     });
     mainPage.classList.add("d-none");
     countryInfoPage.classList.remove("d-none");
+
+    // backBtn
+    countryInfoBtn.addEventListener("click", function () {
+      countryInfoPage.querySelector(".bottom").remove();
+      mainPage.classList.remove("d-none");
+      countryInfoPage.classList.add("d-none");
+    });
   } catch (err) {
     console.log(err);
   }
@@ -89,7 +107,7 @@ const addCards = async function (api) {
         <div class="card dark-mode-elements">
             <img src="${each.flags.png}" alt="${each.cca3}" class="card-img-top flag" />
             <div class="card-body">
-              <h5>${each.name.common}</h5>
+              <h5>${each.name.common}, <span class="cca3">${each.cca3}</span></h5>
               <div class="info">
                 <h6>Population: <span>${Number(each.population).toLocaleString()}</span></h6>
                 <h6>Region: <span class="text-capitalize">${each.region}</span></h6>
@@ -100,11 +118,12 @@ const addCards = async function (api) {
       countryCards.insertAdjacentHTML("afterbegin", cardHtml);
     });
     const allCards = document.querySelectorAll(".card");
+
     await searchApp(allCards);
     await displayMode(allCards);
     allCards.forEach((each) => {
       each.addEventListener("click", function (e) {
-        const countryName = e.target.closest(".card").querySelector("h5");
+        const countryName = e.target.closest(".card").querySelector(".cca3");
         countryInfo(countryName.textContent);
       });
     });
@@ -155,7 +174,7 @@ const searchApp = async function (allCards) {
   });
 };
 
-const displayMode = async function (allCards) {
+const displayMode = async function (allCards, objs) {
   displayModeBtn.addEventListener("click", function (e) {
     e.preventDefault();
     // when page is on dark mode
@@ -185,9 +204,13 @@ const displayMode = async function (allCards) {
         each.classList.remove("dark-mode-elements");
         each.classList.add("light-mode-header");
       });
-      countryInfoBtns.forEach((each) => {
-        each.classList.remove("btn-dark");
-        each.classList.add("btn-light");
+
+      countryInfoBtn.classList.remove("btn-dark");
+      countryInfoBtn.classList.add("btn-light");
+      countryInfoBtn.classList.remove("dark-mode-elements");
+      countryInfoBtn.classList.add("light-mode-header");
+
+      objs.forEach((each) => {
         each.classList.remove("dark-mode-elements");
         each.classList.add("light-mode-header");
       });
@@ -219,9 +242,13 @@ const displayMode = async function (allCards) {
         each.classList.add("dark-mode-elements");
         each.classList.remove("light-mode-header");
       });
-      countryInfoBtns.forEach((each) => {
-        each.classList.add("btn-dark");
-        each.classList.remove("btn-light");
+
+      countryInfoBtn.classList.add("btn-dark");
+      countryInfoBtn.classList.remove("btn-light");
+      countryInfoBtn.classList.add("dark-mode-elements");
+      countryInfoBtn.classList.remove("light-mode-header");
+
+      objs.forEach((each) => {
         each.classList.add("dark-mode-elements");
         each.classList.remove("light-mode-header");
       });
