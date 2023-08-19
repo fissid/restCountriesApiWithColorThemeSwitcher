@@ -1,120 +1,138 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito+Sans:opsz@6..12&display=swap");
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-main {
+body {
+  font-family: "Nunito Sans", sans-serif;
   height: 100vh;
-  width: 100vw;
-  overflow: hidden;
-  position: relative;
+  /* width: 97vw; */
 }
 
-.back {
-  height: 35vh;
-  width: 100%;
-  background-size: cover;
-  background-image: url("../img/pattern-bg-desktop.png");
-  background-repeat: no-repeat;
-  z-index: 50;
+/* body */
+.dark-mode-body {
+  background-color: hsl(207, 26%, 17%);
+  transition: all 0.5s;
+}
+.light-mode-body {
+  background: hsl(0, 0%, 98%);
+  transition: all 0.5s;
+}
+/* header */
+.dark-mode-header {
+  background: hsl(209, 23%, 22%);
+  transition: all 0.5s;
+}
+.light-mode-header {
+  background: hsl(0, 0%, 100%);
+  transition: all 0.5s;
+}
+/* .each .dropdown-menu .card */
+.dark-mode-elements {
+  background: hsl(209, 23%, 22%);
+  color: #fff;
+  transition: all 0.5s;
 }
 
-.map {
-  height: 65vh;
-  width: 100%;
-  z-index: 1;
-  /* background-image: url("../img/map.PNG"); */
+header {
+  height: 10vh;
 }
 
-.box {
-  position: absolute;
-  top: 25%;
-  left: 15%;
-  width: 75%;
-  height: 20vh;
-  border-radius: 20px;
-  z-index: 10;
+header,
+.each,
+.card,
+.conutry-info button {
+  box-shadow: 0px 1px 5px -3px #333;
 }
 
-.each {
-  width: 20%;
-  border-right: 1px solid #bbb;
+.dropdown-item:hover {
+  color: #000 !important;
+}
+.each:first-child {
+  width: 40%;
+  padding: 0.2em 0em;
 }
 
 .each:last-child {
+  padding: 0.3em 0.8em;
+}
+
+.search::placeholder {
+  color: #999;
+}
+
+.search-icon {
+  filter: invert(50%);
+}
+
+.country-cards {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  justify-content: space-between;
+  row-gap: 50px;
+  column-gap: 12px;
+}
+
+.card {
+  cursor: pointer;
+  width: 250px;
+  max-height: 350px;
   border: 0;
+  border-radius: 0px;
+  transition: all 0.3s;
 }
 
-.each small {
-  font-weight: 700;
-  letter-spacing: 2px;
+.card:hover {
+  box-shadow: 1px 1px 10px -2px #666;
 }
 
-.each h5 {
-  font-weight: 700;
+.card img {
+  height: 150px;
+  width: 100%;
+}
+.flag {
+  filter: grayscale(0.2);
 }
 
-.input-group button {
-  border-radius: 0 10px 10px 0;
-  font-weight: 900;
-  font-size: 1.5em;
+.card-body {
+  padding: 1.5em;
 }
 
-.input-group input::placeholder {
+.card h5 {
+  font-size: 1.2em;
+  padding: 0 0 0.5em 0;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+.bottom h3 {
+  padding: 0 0 0.5em 0;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.card h6,
+.bottom h6 {
   font-size: 0.9em;
+  margin: 3px 0;
+  font-weight: 600;
+  letter-spacing: 1px;
 }
 
-@media (max-width: 1088px) {
-  .each h5 {
-    font-size: 1em;
-  }
-  .each small {
-    font-size: 0.7em;
-  }
-  .input-group input::placeholder {
-    font-size: 0.8em;
-  }
-  .title {
-    font-size: 1.2em;
-  }
-  .input-group {
-    width: 60% !important;
-  }
+.bottom h6 {
+  margin: 12px 0;
 }
 
-@media (max-width: 745px) {
-  .each h5 {
-    font-size: 0.8em;
-  }
-  .each small {
-    font-size: 0.6em;
-  }
+.card h6 span,
+.bottom h6 span {
+  font-weight: 300;
+  letter-spacing: 0;
 }
 
-@media (max-width: 700px) {
-  .input-group {
-    width: 80% !important;
-  }
-  .box {
-    left: 12%;
-    height: auto;
-    flex-flow: column;
-    padding: 1em;
-  }
-
-  .each {
-    border: 0;
-    width: 100%;
-    text-align: center;
-  }
-
-  .each h5 {
-    padding-top: 0 !important;
-    padding-bottom: 0.8em;
-    font-size: 1em;
-  }
-  .each small {
-    font-size: 0.7em;
-  }
+.flag-containe {
+  width: 40%;
+  height: 100%;
 }
