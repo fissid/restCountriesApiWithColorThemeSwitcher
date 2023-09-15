@@ -1,4 +1,4 @@
-<h2>Rest countries API with color theme switcher</h2> </br></br>
+<h1>Rest countries API with color theme switcher</h1> </br>
 
 This is a web page that I used HTML5, CSS3, Bootstrap5, JavaScript and RestAPI to create it.</br> <hr>
 You can read and learn any country's information on the earth such as native name, population, languages, capital, timezone, calling code, borders with other countries, google map link, etc. </br>
